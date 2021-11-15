@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 public class CYKGUI {
 
@@ -54,6 +54,7 @@ public class CYKGUI {
 
 	}
 
+	@SuppressWarnings("null")
 	@FXML
 	void enterBTN(ActionEvent event) {
 		String w = null;
@@ -63,35 +64,70 @@ public class CYKGUI {
 			gram = grammaticalTXT.getText();
 		}catch(Exception e) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
-		    alert.setHeaderText(null);
-		    alert.setTitle("Error");
-		    alert.setContentText("Please enter a valid chain or grammar");
-		    alert.showAndWait();
+			alert.setHeaderText(null);
+			alert.setTitle("Error");
+			alert.setContentText("Please enter a valid chain or grammar");
+			alert.showAndWait();
 		}
 
 
-		String[][] matrixGram = null;
-
+		String[][] matrixGram;
+		int numColumns =0;
 		if(!w.equals("") && !gram.equals("")) {
+
 
 			String[] rows = gram.split(",");
 
 			for(int i=0;i<rows.length;i++) {
-				String[] p1 = rows[i].split("-->");
-				matrixGram[i][0]=p1[0];
-				String[] p2 = p1[1].split("|");
+				if(numColumns<rows[i].length()) {
+					numColumns=rows[i].length();
+				}
+			}
+			matrixGram = new String[rows.length][numColumns-6];
 
-				for(int j=1;j<p2.length;j++) {			
-					matrixGram[i][j] = p2[j];
+			for(int i=0;i<rows.length;i++) {
+
+				String[] p1 = rows[i].split("-->");
+
+				matrixGram[i][0]=p1[0].trim();
+
+				boolean proof=false;
+				String[] p2 = p1[1].split("\\|");
+				int x=0;
+				for(int j=1;j<p2.length;j++) {		
+
+					proof=true;
+
+					matrixGram[i][j] = p2[j-1].trim();
+
+					x=j;
 				}
 
+				if(p2.length>=2) {
+					matrixGram[i][x+1] = p2[x].trim();
+
+				}
+
+				if(!proof) {
+
+					matrixGram[i][1]=p1[1].trim();
+
+				}
+
+
 			}
-			cyk = new AlgorithmCYK(matrixGram,w);
+			for (int i = 0; i < matrixGram.length; i++) {
+				for (int j = 0; j < matrixGram[i].length; j++) {
+					System.out.print(matrixGram[i][j] + " ");
+				}
+				System.out.println();
+			}			cyk = new AlgorithmCYK(matrixGram,w);
+
 			boolean result = cyk.generateCYKMatrix();
 			if(result) {
 				trueLAB.setVisible(true);
 			}else {
-				falseLAB.setVisible(false);
+				falseLAB.setVisible(true);
 			}
 		}
 	}
