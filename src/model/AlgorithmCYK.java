@@ -39,6 +39,7 @@ public class AlgorithmCYK {
 				for(int k=j-i;k<j;k++) {
 					pw += combineStrings(resultMatrix[j - i][k], resultMatrix[k + 1][j]);
 				}
+				  resultMatrix[j - i][j] = pw;
 			}
 		}
 
