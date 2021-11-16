@@ -57,6 +57,7 @@ public class CYKGUI {
 	@SuppressWarnings("null")
 	@FXML
 	void enterBTN(ActionEvent event) {
+		init();
 		String w = null;
 		String gram = null;
 		try {
@@ -114,21 +115,30 @@ public class CYKGUI {
 
 				}
 
-
+				
 			}
 			for (int i = 0; i < matrixGram.length; i++) {
 				for (int j = 0; j < matrixGram[i].length; j++) {
+					if(matrixGram[i][j]==null) {
+						matrixGram[i][j]="";
+					}
 					System.out.print(matrixGram[i][j] + " ");
 				}
 				System.out.println();
-			}			cyk = new AlgorithmCYK(matrixGram,w);
-
+			}	
+			
+			
+			cyk = new AlgorithmCYK(matrixGram,w);
 			boolean result = cyk.generateCYKMatrix();
 			if(result) {
 				trueLAB.setVisible(true);
 			}else {
 				falseLAB.setVisible(true);
 			}
+			
+
+			
+			
 		}
 	}
 }
