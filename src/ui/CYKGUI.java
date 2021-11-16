@@ -1,4 +1,4 @@
-package model;
+package ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.AlgorithmCYK;
 
 
 public class CYKGUI {
